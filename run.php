@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+require_once __DIR__ . '/src/BadCredentialsException.php';
 require_once __DIR__ . '/src/CanBeAuthenticatedInterface.php';
 require_once __DIR__ . '/src/User.php';
 require_once __DIR__ . '/src/Member.php';
@@ -16,6 +17,10 @@ $admin1 = new Admin('AdminName1', 'adminlogin1', 'adminpassword1', 1);
 $admin2 = new Admin('AdminName2', 'adminlogin2', 'adminpassword2', 2, MemberLevel::SuperAdmin);
 $admin3 = new Admin('AdminName3', 'adminlogin3', 'adminpassword3', 3);
 
+echo PHP_EOL . '----------------------------------------' . PHP_EOL;
+
+echo ' >>> Static count' . PHP_EOL;
+
 echo 'Initial count :' . PHP_EOL;
 echo '  |-> Member : ' . Member::count() . PHP_EOL;
 echo '  |-> Admin : ' . Admin::count() . PHP_EOL;
@@ -28,5 +33,17 @@ echo '  |-> Admin : ' . Admin::count() . PHP_EOL;
 
 echo PHP_EOL . '----------------------------------------' . PHP_EOL;
 
+echo ' >>> __toString()' . PHP_EOL;
+
 echo 'Member1 __toString : ' . $member1 . PHP_EOL;
 echo 'Admin2 __toString : ' . $admin2 . PHP_EOL;
+
+echo PHP_EOL . '----------------------------------------' . PHP_EOL;
+
+echo ' >>> Bad credentials' . PHP_EOL;
+
+try {
+    $member2->auth('fake', 'fake');
+} catch (BadCredentialsException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}

@@ -23,12 +23,12 @@ class Admin extends Member
 
         #[SensitiveParameter]
         string $password,
-    ): bool {
+    ): void {
         if ($this->level === MemberLevel::SuperAdmin) {
-            return true;
+            return;
         }
 
-        return parent::auth($login, $password);
+        parent::auth($login, $password);
     }
 
     #[Override]

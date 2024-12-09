@@ -54,8 +54,13 @@ class Member extends User implements CanBeAuthenticatedInterface
 
         #[SensitiveParameter]
         string $password
-    ): bool {
-        return $this->login === $login && $this->password === $password;
+    ): void {
+        if (
+            $this->login !== $login
+            || $this->password !== $password
+        ) {
+            throw BadCredentialsException::forLogin($login);
+        }
     }
 
     #[Override]
