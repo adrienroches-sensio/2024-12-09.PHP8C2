@@ -8,6 +8,11 @@ require_once __DIR__ . '/src/Member.php';
 require_once __DIR__ . '/src/MemberLevel.php';
 require_once __DIR__ . '/src/Admin.php';
 
+use App\Admin;
+use App\BadCredentialsException;
+use App\Member;
+use App\MemberLevel;
+
 $member1 = new Member('MemberName1', 'login1', 'password1', 1);
 $member2 = new Member('MemberName2', 'login2', 'password2', 2);
 $member3 = new Member('MemberName3', 'login3', 'password3', 3);

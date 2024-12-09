@@ -1,5 +1,9 @@
 <?php
 
+namespace App;
+
+use Stringable;
+
 abstract class User implements Stringable
 {
     public function __construct(
