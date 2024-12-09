@@ -14,4 +14,12 @@ $admin1 = new Admin('adminlogin1', 'adminpassword1', 1);
 $admin2 = new Admin('adminlogin2', 'adminpassword2', 2, MemberLevel::SuperAdmin);
 $admin3 = new Admin('adminlogin3', 'adminpassword3', 3);
 
-echo 'Total member count : ' . Member::count() . PHP_EOL;
+echo 'Initial count :' . PHP_EOL;
+echo '  |-> Member : ' . Member::count() . PHP_EOL;
+echo '  |-> Admin : ' . Admin::count() . PHP_EOL;
+
+unset($member3, $admin3);
+
+echo 'After unset(member3, admin3) :' . PHP_EOL;
+echo '  |-> Member : ' . Member::count() . PHP_EOL;
+echo '  |-> Admin : ' . Admin::count() . PHP_EOL;
