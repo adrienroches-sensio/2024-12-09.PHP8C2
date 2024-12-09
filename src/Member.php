@@ -1,6 +1,6 @@
 <?php
 
-class Member
+class Member implements CanBeAuthenticatedInterface
 {
 
     /**
