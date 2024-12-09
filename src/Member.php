@@ -2,6 +2,8 @@
 
 class Member
 {
+    private static int $count = 0;
+
     public function __construct(
         private string $login,
 
@@ -10,6 +12,17 @@ class Member
 
         private int $age,
     ) {
+        ++self::$count;
+    }
+
+    public function __destruct()
+    {
+        --self::$count;
+    }
+
+    public static function count(): int
+    {
+        return self::$count;
     }
 
     public function auth(
