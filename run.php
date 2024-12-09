@@ -25,3 +25,8 @@ unset($member3, $admin3);
 echo 'After unset(member3, admin3) :' . PHP_EOL;
 echo '  |-> Member : ' . Member::count() . PHP_EOL;
 echo '  |-> Admin : ' . Admin::count() . PHP_EOL;
+
+echo PHP_EOL . '----------------------------------------' . PHP_EOL;
+
+echo 'Member1 __toString : ' . $member1 . PHP_EOL;
+echo 'Admin2 __toString : ' . $admin2 . PHP_EOL;

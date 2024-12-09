@@ -1,6 +1,6 @@
 <?php
 
-abstract class User
+abstract class User implements Stringable
 {
     public function __construct(
         private string $name
@@ -16,4 +16,6 @@ abstract class User
     {
         $this->name = $name;
     }
+
+    abstract public function __toString(): string;
 }

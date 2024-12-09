@@ -57,4 +57,10 @@ class Member extends User implements CanBeAuthenticatedInterface
     ): bool {
         return $this->login === $login && $this->password === $password;
     }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return "{$this->getName()} #{$this->login}";
+    }
 }
