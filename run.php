@@ -1,17 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__ . '/src/BadCredentialsException.php';
-require_once __DIR__ . '/src/CanBeAuthenticatedInterface.php';
-require_once __DIR__ . '/src/User.php';
-require_once __DIR__ . '/src/Member.php';
-require_once __DIR__ . '/src/MemberLevel.php';
-require_once __DIR__ . '/src/Admin.php';
-
 use App\Admin;
 use App\BadCredentialsException;
 use App\Member;
 use App\MemberLevel;
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 $member1 = new Member('MemberName1', 'login1', 'password1', 1);
 $member2 = new Member('MemberName2', 'login2', 'password2', 2);
