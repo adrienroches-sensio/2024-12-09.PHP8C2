@@ -10,7 +10,7 @@ class Admin extends Member
 
         int $age,
 
-        private string $level = 'ADMIN',
+        private MemberLevel $level = MemberLevel::Admin,
     ) {
         parent::__construct($login, $password, $age);
     }
@@ -21,12 +21,10 @@ class Admin extends Member
         #[SensitiveParameter]
         string $password,
     ): bool {
-        if ($this->level === 'SUPERADMIN') {
+        if ($this->level === MemberLevel::SuperAdmin) {
             return true;
         }
 
         return parent::auth($login, $password);
     }
-
-
 }
