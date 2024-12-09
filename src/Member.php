@@ -1,14 +1,15 @@
 <?php
 
-class Member implements CanBeAuthenticatedInterface
+class Member extends User implements CanBeAuthenticatedInterface
 {
-
     /**
      * @var array<class-string<Member>, int>
      */
     private static array $count = [];
 
     public function __construct(
+        string $name,
+
         private string $login,
 
         #[SensitiveParameter]
@@ -17,6 +18,8 @@ class Member implements CanBeAuthenticatedInterface
         private int $age,
     ) {
         self::add($this);
+
+        parent::__construct($name);
     }
 
     public function __destruct()
