@@ -45,6 +45,7 @@ class Member implements CanBeAuthenticatedInterface
         return self::$count[static::class] ?? 0;
     }
 
+    #[Override]
     public function auth(
         string $login,
 
