@@ -5,7 +5,7 @@ namespace App;
 use Override;
 use SensitiveParameter;
 
-class Member extends User implements CanBeAuthenticatedInterface
+class Member extends User implements MemberInterface
 {
     /**
      * @var array<class-string<Member>, int>
@@ -48,6 +48,7 @@ class Member extends User implements CanBeAuthenticatedInterface
         return self::$count[$member::class];
     }
 
+    #[Override]
     public static function count(): int
     {
         return self::$count[static::class] ?? 0;

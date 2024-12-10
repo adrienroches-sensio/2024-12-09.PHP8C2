@@ -13,9 +13,9 @@ $member2 = new Member('MemberName2', 'login2', 'password2', 2);
 $member3 = new Member('MemberName3', 'login3', 'password3', 3);
 $member4 = new Member('MemberName4', 'login4', 'password4', 4);
 
-$admin1 = new Admin('AdminName1', 'adminlogin1', 'adminpassword1', 1);
-$admin2 = new Admin('AdminName2', 'adminlogin2', 'adminpassword2', 2, MemberLevel::SuperAdmin);
-$admin3 = new Admin('AdminName3', 'adminlogin3', 'adminpassword3', 3);
+$admin1 = new Admin(new Member('AdminName1', 'adminlogin1', 'adminpassword1', 1));
+$admin2 = new Admin(new Member('AdminName2', 'adminlogin2', 'adminpassword2', 2), MemberLevel::SuperAdmin);
+$admin3 = new Admin(new Member('AdminName3', 'adminlogin3', 'adminpassword3', 3));
 
 echo PHP_EOL . '----------------------------------------' . PHP_EOL;
 
