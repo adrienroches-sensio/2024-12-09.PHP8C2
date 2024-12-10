@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Test;
 
+use App\BadCredentialsException;
 use App\Member;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use SensitiveParameter;
 
 #[CoversClass(Member::class)]
 class MemberTest extends TestCase
@@ -32,5 +32,41 @@ class MemberTest extends TestCase
         int $age = 12,
     ): Member {
         return new Member($name, $login, $password, $age);
+    }
+
+    public function testCanAuthenticateWithGoodCredentials(): void
+    {
+        $member = self::createMember(
+            login: 'my-login',
+            password: 'my-password',
+        );
+
+        $member->auth('my-login', 'my-password');
+
+        $this->addToAssertionCount(1);
+    }
+
+    public function testAuthenticateFailsWithBadLoginAndGoodPassword(): void
+    {
+        $member = self::createMember(
+            login: 'my-login',
+            password: 'my-password',
+        );
+
+        $this->expectException(BadCredentialsException::class);
+
+        $member->auth('other-login', 'my-password');
+    }
+
+    public function testAuthenticateFailsWithGoodLoginAndBadPassword(): void
+    {
+        $member = self::createMember(
+            login: 'my-login',
+            password: 'my-password',
+        );
+
+        $this->expectException(BadCredentialsException::class);
+
+        $member->auth('my-login', 'other-password');
     }
 }
