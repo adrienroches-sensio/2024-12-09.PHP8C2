@@ -7,10 +7,7 @@ use SensitiveParameter;
 
 class Member extends User implements MemberInterface
 {
-    /**
-     * @var array<class-string<Member>, int>
-     */
-    private static array $count = [];
+    use MemberCountableTrait;
 
     public function __construct(
         string $name,
@@ -25,33 +22,6 @@ class Member extends User implements MemberInterface
         self::add($this);
 
         parent::__construct($name);
-    }
-
-    public function __destruct()
-    {
-        self::remove($this);
-    }
-
-    private static function add(Member $member): int
-    {
-        self::$count[$member::class] ??= 0;
-        ++self::$count[$member::class];
-
-        return self::$count[$member::class];
-    }
-
-    private static function remove(Member $member): int
-    {
-        self::$count[$member::class] ??= 0;
-        --self::$count[$member::class];
-
-        return self::$count[$member::class];
-    }
-
-    #[Override]
-    public static function count(): int
-    {
-        return self::$count[static::class] ?? 0;
     }
 
     #[Override]
