@@ -4,79 +4,93 @@ declare(strict_types=1);
 
 namespace Test;
 
+use App\Admin;
 use App\BadCredentialsException;
-use App\Member;
+use App\MemberLevel;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Member::class)]
-class MemberTest extends TestCase
+#[CoversClass(Admin::class)]
+class AdminTest extends TestCase
 {
     public function testCountIsKeptUpToDate(): void
     {
-        $this->assertSame(0, Member::count());
+        $this->assertSame(0, Admin::count());
 
-        $member1 = self::createMember();
+        $admin1 = self::createAdmin();
 
-        $this->assertSame(1, Member::count());
+        $this->assertSame(1, Admin::count());
 
-        unset($member1);
+        unset($admin1);
 
-        $this->assertSame(0, Member::count());
+        $this->assertSame(0, Admin::count());
+    }
+
+    public function testCanAuthenticateIfIsSuperAdmin(): void
+    {
+        $admin = self::createAdmin(
+            level: MemberLevel::SuperAdmin,
+        );
+
+        $admin->auth('my-login', 'my-password');
+
+        $this->addToAssertionCount(1);
     }
 
     public function testCanAuthenticateWithGoodCredentials(): void
     {
-        $member = self::createMember(
+        $admin = self::createAdmin(
             login: 'my-login',
             password: 'my-password',
         );
 
-        $member->auth('my-login', 'my-password');
+        $admin->auth('my-login', 'my-password');
 
         $this->addToAssertionCount(1);
     }
 
     public function testAuthenticateFailsWithBadLoginAndGoodPassword(): void
     {
-        $member = self::createMember(
+        $admin = self::createAdmin(
             login: 'my-login',
             password: 'my-password',
         );
 
         $this->expectException(BadCredentialsException::class);
 
-        $member->auth('other-login', 'my-password');
+        $admin->auth('other-login', 'my-password');
     }
 
     public function testAuthenticateFailsWithGoodLoginAndBadPassword(): void
     {
-        $member = self::createMember(
+        $admin = self::createAdmin(
             login: 'my-login',
             password: 'my-password',
         );
 
         $this->expectException(BadCredentialsException::class);
 
-        $member->auth('my-login', 'other-password');
+        $admin->auth('my-login', 'other-password');
     }
 
     public function testCanBeCastedToString(): void
     {
-        $member = self::createMember(
+        $admin = self::createAdmin(
             name: 'my-name',
             login: 'my-login',
+            level: MemberLevel::SuperAdmin,
         );
 
-        $this->assertSame('my-name #my-login', (string) $member);
+        $this->assertSame('my-name #my-login as Super Admin', (string) $admin);
     }
 
-    private static function createMember(
+    private static function createAdmin(
         string $name = 'fake',
         string $login = 'login',
         string $password = 'password',
         int $age = 12,
-    ): Member {
-        return new Member($name, $login, $password, $age);
+        MemberLevel $level = MemberLevel::Admin,
+    ): Admin {
+        return new Admin($name, $login, $password, $age, $level);
     }
 }
