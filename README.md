@@ -28,3 +28,9 @@ $ ./patterns/singleton.php
 
 **Proxy**
 [Example](./patterns/proxy.php)
+
+## Running tests
+
+```shell
+$ ./vendor/bin/phpunit --coverage-html ./coverage --testdox
+```
