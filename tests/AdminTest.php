@@ -8,6 +8,7 @@ use App\Admin;
 use App\BadCredentialsException;
 use App\Member;
 use App\MemberLevel;
+use App\User;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -95,7 +96,7 @@ class AdminTest extends TestCase
         MemberLevel $level = MemberLevel::Admin,
     ): Admin {
         return new Admin(
-            new Member($name, $login, $password, $age),
+            new Member(new User($name), $login, $password, $age),
             $level
         );
     }

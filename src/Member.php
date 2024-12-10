@@ -5,12 +5,12 @@ namespace App;
 use Override;
 use SensitiveParameter;
 
-class Member extends User implements MemberInterface
+class Member implements MemberInterface
 {
     use MemberCountableTrait;
 
     public function __construct(
-        string $name,
+        private User $user,
 
         private string $login,
 
@@ -20,8 +20,6 @@ class Member extends User implements MemberInterface
         private int $age,
     ) {
         self::add($this);
-
-        parent::__construct($name);
     }
 
     #[Override]
@@ -42,6 +40,6 @@ class Member extends User implements MemberInterface
     #[Override]
     public function __toString(): string
     {
-        return "{$this->getName()} #{$this->login}";
+        return "{$this->user} #{$this->login}";
     }
 }

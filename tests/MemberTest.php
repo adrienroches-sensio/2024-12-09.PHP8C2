@@ -6,6 +6,7 @@ namespace Test;
 
 use App\BadCredentialsException;
 use App\Member;
+use App\User;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -77,6 +78,6 @@ class MemberTest extends TestCase
         string $password = 'password',
         int $age = 12,
     ): Member {
-        return new Member($name, $login, $password, $age);
+        return new Member(new User($name), $login, $password, $age);
     }
 }
