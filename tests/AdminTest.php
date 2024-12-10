@@ -29,10 +29,12 @@ class AdminTest extends TestCase
     public function testCanAuthenticateIfIsSuperAdmin(): void
     {
         $admin = self::createAdmin(
+            login: 'my-login',
+            password: 'my-password',
             level: MemberLevel::SuperAdmin,
         );
 
-        $admin->auth('my-login', 'my-password');
+        $admin->auth('other-login', 'other-password');
 
         $this->addToAssertionCount(1);
     }
