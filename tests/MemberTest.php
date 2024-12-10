@@ -69,4 +69,14 @@ class MemberTest extends TestCase
 
         $member->auth('my-login', 'other-password');
     }
+
+    public function testCanBeCastedToString(): void
+    {
+        $member = self::createMember(
+            name: 'my-name',
+            login: 'my-login',
+        );
+
+        $this->assertSame('my-name #my-login', (string) $member);
+    }
 }
