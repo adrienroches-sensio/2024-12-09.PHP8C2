@@ -5,21 +5,21 @@ namespace App;
 use Override;
 use SensitiveParameter;
 
-class Admin extends Member
+class Admin implements MemberInterface
 {
+    use MemberCountableTrait;
+
     public function __construct(
-        string $name,
-
-        string $login,
-
-        #[SensitiveParameter]
-        string $password,
-
-        int $age,
-
+        private Member $member,
         private MemberLevel $level = MemberLevel::Admin,
     ) {
-        parent::__construct($name, $login, $password, $age);
+        MemberCount::add($this);
+        MemberCount::remove($this->member);
+    }
+
+    public function __destruct()
+    {
+        MemberCount::remove($this);
     }
 
     #[Override]
@@ -33,12 +33,12 @@ class Admin extends Member
             return;
         }
 
-        parent::auth($login, $password);
+        $this->member->auth($login, $password);
     }
 
     #[Override]
     public function __toString(): string
     {
-        return parent::__toString() . " as {$this->level->label()}";
+        return $this->member . " as {$this->level->label()}";
     }
 }
