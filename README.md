@@ -25,3 +25,6 @@ $ ./run.php
 ```shell
 $ ./patterns/singleton.php
 ```
+
+**Proxy**
+[Example](./patterns/proxy.php)
