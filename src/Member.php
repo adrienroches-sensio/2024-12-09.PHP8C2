@@ -19,12 +19,7 @@ class Member implements MemberInterface
 
         private int $age,
     ) {
-        MemberCount::add($this);
-    }
-
-    public function __destruct()
-    {
-        MemberCount::remove($this);
+        self::add($this);
     }
 
     #[Override]
@@ -45,6 +40,6 @@ class Member implements MemberInterface
     #[Override]
     public function __toString(): string
     {
-        return "{$this->user->getName()} #{$this->login}";
+        return "{$this->user} #{$this->login}";
     }
 }

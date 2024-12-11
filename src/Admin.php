@@ -13,13 +13,7 @@ class Admin implements MemberInterface
         private Member $member,
         private MemberLevel $level = MemberLevel::Admin,
     ) {
-        MemberCount::add($this);
-        MemberCount::remove($this->member);
-    }
-
-    public function __destruct()
-    {
-        MemberCount::remove($this);
+        self::add($this);
     }
 
     #[Override]

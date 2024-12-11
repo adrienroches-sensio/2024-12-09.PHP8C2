@@ -2,10 +2,13 @@
 
 namespace App;
 
-class User
+use Override;
+use Stringable;
+
+class User implements Stringable
 {
     public function __construct(
-        private string $name,
+        private string $name
     ) {
     }
 
@@ -17,5 +20,11 @@ class User
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }
