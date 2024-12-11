@@ -5,6 +5,10 @@ interface UserInterface
     public function setLanguage(string $language): void;
 
     public function getLanguage(): string;
+
+    public function getName(): string;
+
+    public function setName(string $name): void;
 }
 
 class User implements UserInterface
@@ -26,6 +30,16 @@ class User implements UserInterface
     {
         return $this->language;
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }
 
 class StorageAwareUser implements UserInterface
@@ -45,6 +59,55 @@ class StorageAwareUser implements UserInterface
     public function getLanguage(): string
     {
         return $this->user->getLanguage();
+    }
+
+    public function getName(): string
+    {
+        return $this->user->getName();
+    }
+
+    public function setName(string $name): void
+    {
+        $this->user->setName($name);
+    }
+}
+
+class AnonymiserUser implements UserInterface
+{
+    public function __construct(
+        private UserInterface $user,
+        private Closure $rule,
+    ) {
+    }
+
+    public function setLanguage(string $language): void
+    {
+        $this->user->setLanguage($language);
+    }
+
+    public function getLanguage(): string
+    {
+        return $this->user->getLanguage();
+    }
+
+    public function getName(): string
+    {
+        if ( ($this->rule)() === false ) {
+            return $this->user->getName();
+        }
+
+        return 'anonymous';
+    }
+
+    public function setName(string $name): void
+    {
+        if ( ($this->rule)() === false ) {
+            $this->user->setName($name);
+
+            return;
+        }
+
+        throw new LogicException('Not enough credentials');
     }
 }
 
@@ -94,9 +157,19 @@ class SessionLifecycle
 
 $session = new SessionStorage();
 
-$user = new StorageAwareUser(new User(), $session);
+$user = new AnonymiserUser(
+    new StorageAwareUser(
+        new User(),
+        $session,
+    ),
+    static function (): bool {
+        return true;
+    },
+);
 
 $user->setLanguage('fr');
 $user->setLanguage('en');
+$user->setName('Qezac');
 
-echo $user->getLanguage();
+echo $user->getLanguage() . PHP_EOL;
+echo $user->getName() . PHP_EOL;
